@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #fafaf5;
+  --green: #2e5d27;
+  --accent: #4b9e39;
+}
+
+body {
+  background: var(--bg);
+  color: var(--green);
+}
+
+/* small helper classes */
+.card {
+  @apply shadow-md p-4 rounded-xl border border-gray-200 bg-white;
+}
+.btn-primary {
+  @apply bg-[#4b9e39] text-white font-semibold rounded-full py-2 px-4;
+}
+.btn-outline {
+  @apply border-2 border-gray-300 rounded-full py-2 px-4;
+}

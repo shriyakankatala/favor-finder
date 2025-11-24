@@ -1,4 +1,6 @@
-import React from "react";
+// web/components/FavorCard.tsx
+"use client";
+
 import Link from "next/link";
 import { Favor } from "../lib/types";
 
@@ -8,19 +10,28 @@ type Props = {
 
 export default function FavorCard({ favor }: Props) {
   return (
-    <Link href={`/favors/${favor.id}`}>
-      <article className="card cursor-pointer hover:shadow-lg transition">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="font-semibold text-lg">{favor.title}</h3>
-            <p className="text-gray-600 text-sm">{favor.description}</p>
-            <div className="text-xs text-gray-500 mt-1">{favor.distance} • {favor.eta}</div>
-          </div>
-          <div className="ml-4">
-            <div className="bg-[#cfe9d0] rounded-full px-3 py-1 text-sm font-semibold">{favor.reward}</div>
-          </div>
+    <Link
+      href={`/favors/${favor.id}`}
+      className="block p-4 rounded-xl bg-white shadow border border-gray-200 hover:bg-gray-50 transition"
+    >
+      <div className="flex justify-between items-center">
+        <div>
+          <h3 className="text-lg font-semibold">{favor.title}</h3>
+          <p className="text-sm text-gray-600">{favor.description}</p>
+
+          {(favor.distance || favor.eta) && (
+            <p className="text-sm text-gray-500 mt-1">
+              {favor.distance && <>📍 {favor.distance}</>}
+              {favor.distance && favor.eta && " · "}
+              {favor.eta && <>🕓 {favor.eta}</>}
+            </p>
+          )}
         </div>
-      </article>
+
+        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+          {favor.reward}
+        </span>
+      </div>
     </Link>
   );
 }

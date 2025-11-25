@@ -1,5 +1,6 @@
 import React from "react";
 import "./globals.css";
+import { GlobalProvider } from "@/contexts/GlobalContext";
 
 export const metadata = {
   title: "Favor Finder",
@@ -10,9 +11,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen">
-        <div className="max-w-4xl mx-auto p-4">
+        <GlobalProvider>
           {children}
-        </div>
+        </GlobalProvider>
       </body>
     </html>
   );

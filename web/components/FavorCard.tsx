@@ -1,17 +1,21 @@
 // web/components/FavorCard.tsx
 "use client";
 
-import Link from "next/link";
-import { Favor } from "../lib/types";
+import { Favor } from "../lib/favor";
 
 type Props = {
   favor: Favor;
+  onClick?: () => void;
 };
 
-export default function FavorCard({ favor }: Props) {
+export default function FavorCard({ favor, onClick }: Props) {
+  function handleClick() {
+    if (onClick) {
+      onClick();
+    }
+  }
   return (
-    <Link
-      href={`/favors/${favor.id}`}
+    <div onClick={handleClick}
       className="block p-4 rounded-xl bg-white shadow border border-gray-200 hover:bg-gray-50 transition"
     >
       <div className="flex justify-between items-center">
@@ -32,6 +36,6 @@ export default function FavorCard({ favor }: Props) {
           {favor.reward}
         </span>
       </div>
-    </Link>
+    </div>
   );
 }

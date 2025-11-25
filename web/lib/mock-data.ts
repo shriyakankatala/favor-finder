@@ -1,6 +1,6 @@
 // web/lib/mock-data.ts
 
-import { Favor } from "./types";
+import { Favor } from "./favor";
 
 export const MY_FAVORS: Favor[] = [
   {

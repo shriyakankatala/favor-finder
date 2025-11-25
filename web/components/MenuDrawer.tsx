@@ -16,9 +16,9 @@ export default function MenuDrawer() {
           <aside className="absolute left-0 top-0 bottom-0 w-72 bg-white p-6 shadow-xl">
             <button onClick={() => setOpen(false)} className="mb-4">Close</button>
             <nav className="flex flex-col gap-3">
-              <Link href="/">Home</Link>
-              <Link href="/favors/create">Create Favor</Link>
-              <Link href="/login">Login</Link>
+              <Link onClick={() => setOpen(false)} href="/home">Home</Link>
+              <Link href="/create">Create Favor</Link>
+              <Link href="/login">Logout</Link>
             </nav>
           </aside>
         </div>

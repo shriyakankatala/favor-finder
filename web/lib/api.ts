@@ -1,5 +1,5 @@
-import { Favor, FavorInput } from "./types";
-
+import { Favor } from "./favor";
+import { FavorInput } from "./favor-input";
 /**
  * FRONTEND-ONLY STUBS — Option B:
  * These preserve the interface for later wiring to your backend.

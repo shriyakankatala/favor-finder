@@ -1,56 +1,65 @@
 "use client";
 
-import React from "react";
-import FavorCard from "../components/FavorCard";
-import MenuDrawer from "../components/MenuDrawer";
-import { Favor } from "../lib/types";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { headers } from "next/headers";
+import axios from 'axios';
 
-// Mock data
-const MY_FAVORS: Favor[] = [
-  { id: "1", title: "Pick up groceries", description: "123 Main St", reward: "$10" },
-  { id: "2", title: "Walk the dog", description: "123 Main St", reward: "$5" }
-];
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState("");
 
-const NEARBY_FAVORS: Favor[] = [
-  { id: "3", title: "Move a couch", description: "456 Oak Ave", reward: "$25", distance: "1.2 mi", eta: "15 min" },
-  { id: "4", title: "Math tutoring", description: "789 Pine St", reward: "$18", distance: "0.6 mi", eta: "8 min" }
-];
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (email === "" || password === "") {
+      setAlert("Please fill in all fields");
+      return;
+    }
+    attemptRegister(email, password);
+    router.push("/home"); // go to home page
+  }
 
-export default function HomePage() {
+  function attemptRegister(email: string, password: string) {
+    axios.post('/api/register', { email, password }, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.data)
+    .then(data => router.push("/home"))
+    .catch(error => setAlert("Registration failed"));
+  }
+
   return (
-    <main>
-      <header className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Favor Finder</h1>
-        <div className="flex gap-2">
-          <a href="/favors/create" className="btn-primary">＋</a>
-        </div>
-      </header>
-
-      <MenuDrawer />
-
-      {/* My Requested Favors */}
-      <section className="mt-6">
-        <h2 className="text-2xl font-semibold mb-3">My Requested Favors</h2>
-        {MY_FAVORS.length > 0 ? (
-          <div className="space-y-4">
-            {MY_FAVORS.map(f => <FavorCard key={f.id} favor={f} />)}
-          </div>
-        ) : (
-          <p className="text-gray-500">You have no requested favors.</p>
-        )}
-      </section>
-
-      {/* Requested Favors Near Me */}
-      <section className="mt-8">
-        <h2 className="text-2xl font-semibold mb-3">Requested Favors Near Me</h2>
-        {NEARBY_FAVORS.length > 0 ? (
-          <div className="space-y-4">
-            {NEARBY_FAVORS.map(f => <FavorCard key={f.id} favor={f} />)}
-          </div>
-        ) : (
-          <p className="text-gray-500">No nearby favors found.</p>
-        )}
-      </section>
-    </main>
+    <div>
+      <h6 className="text-5xl text-green-700 text-center mt-10">Favor Finder</h6>
+    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow mt-10">
+      <h1 className="text-2xl font-bold mb-4">Create Account</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <input
+          className="border p-2 rounded"
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <input
+          className="border p-2 rounded"
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <button type="submit" className="btn-primary">Register</button>
+        <div>Already have an account? <a href="/login" className="text-red-500 underline cursor-pointer">Login</a></div>
+        {alert && <p className="text-red-500 mt-4">{alert}</p>}
+      </form>
+    </div>
+    </div>
   );
 }
+
+    //<main className="max-w-4xl mx-auto mt-8 px-4">
